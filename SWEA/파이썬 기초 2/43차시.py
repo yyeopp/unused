@@ -162,3 +162,91 @@ class Student(Person):
     pass
 print(issubclass(Student, Person))         # issubclass(a,b)는 a가 b의 subclass인지 확인하는 함수. T/F 결과
 '''
+
+
+'''
+class Person:
+    def __init__(self):
+        print('Person __init__')       # Person()로 실행할 시 출력되는 문구
+        self.hello = '안녕하세요.'   # Person 클래스의 속성, hello
+class Student(Person):
+    def __init__(self):      
+        print('Student __init__')          
+        self.school = '파이썬 코딩 도장'          # Student 클래스의 속성, school
+james = Student()
+print(james.school)
+print(james.hello)     # 여기서 오류 발생: james는 Student의 인스턴스임에도 Person의 속성을 불러올 수 없음 (그냥은)
+'''
+
+'''
+class Person:
+    def __init__(self):
+        print('Person __init__')
+        self.hello = '안녕하세요.'
+class Student(Person):
+    def __init__(self):
+        print('Student __init__')
+        super().__init__()          # super()로 기반 클래스인 Person의 메서드를 호출할 수 있다. __init__을 호출했으므로 특성을 공유하게 되는 것.
+        self.school = '파이썬 코딩 도장'       # 만약 파생클래스인 Student에서 __init__이 선언된 바 없다면, 기반클래스의 __init__을 자동승계한다는 점
+james = Student()
+print(james.school)                 # super(Student, self).__init__() 의 형식으로 씀으로써 좀더 정확하게 보여줄 수도 있다고 함
+print(james.hello)
+'''
+
+'''
+class Person:
+    def greeting(self):
+        print('안녕하세요.')
+class Student(Person):
+    def greeting(self):         # 기반클래스와 같은 메서드를 다시 선언.
+        print('안녕하세요. 저는 파이썬 코딩 도장 학생입니다.')
+james = Student()           # 보통 프로그램에서 어떤 기능이 같은 메서드 이름으로 계속 사용되어야 할 때 메서드 오버라이딩을 활용
+james.greeting()            # Student 클래스에서의 greeting 문구가 출력됨. 기반클래스의 메서드가 '오버라이딩(무시)' 된 것.
+'''
+
+'''
+class Person:
+    def greeting(self):
+        print('안녕하세요.')
+class Student(Person):
+    def greeting(self):
+        super().greeting()      # 아예 덮어씌우는 대신 '추가'하는게 목적이라면, super()를 통해 기반클래스의 메서드를 불러낸 후
+        print('저는 파이썬 코딩 도장 학생입니다.')     # 새로운 기능을 규정해놓으면
+james = Student()
+james.greeting()        # Person과 Student 속 문장이 모두 출력되는 결과가 나타난다.
+'''
+
+'''
+class Person:
+    def greeting(self):
+        print('안녕하세요.')
+class University:
+    def manage_credit(self):
+        print('학점 관리')
+class Undergraduate(Person, University):       # 다중상속. 괄호 속에 콤마로 구분하면 됨
+    def study(self):
+        print('공부하기')
+james = Undergraduate()         # 인스턴스 선언
+james.greeting()  # 안녕하세요.: 기반 클래스 Person의 메서드 호출
+james.manage_credit()  # 학점 관리: 기반 클래스 University의 메서드 호출
+james.study()  # 공부하기: 파생 클래스 Undergraduate에 추가한 study 메서드
+'''
+
+'''
+class A:
+    def greeting(self):
+        print('안녕하세요. A입니다.')
+class B(A):
+    def greeting(self):
+        print('안녕하세요. B입니다.')
+class C(A):
+    def greeting(self):
+        print('안녕하세요. C입니다.')
+class D(B, C):              # B와 C가 A를, D가 B와 C를 상속
+    pass
+x = D()
+x.greeting()    # 안녕하세요. B입니다.      # 다이아몬드 상속 이라고 부른다 함: 메서드 중복(오버라이딩 상황)에 취약하기 때문에 웬만하면 피해야 한다고
+'''
+
+
+
